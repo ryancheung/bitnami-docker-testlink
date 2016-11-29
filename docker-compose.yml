@@ -3,24 +3,19 @@ services:
   mariadb:
     image: 'bitnami/mariadb:latest'
     volumes:
-      - 'mariadb_data:/bitnami/mariadb'
+      - '/root/bitnami-docker-testlink/mariadb_data:/bitnami/mariadb'
   application:
     image: 'bitnami/testlink:latest'
     ports:
-      - '80:80'
-      - '443:443'
+      - '8080:80'
     volumes:
-      - 'apache_data:/bitnami/apache'
-      - 'testlink_data:/bitnami/testlink'
-      - 'php_data:/bitnami/php'
+      - '/root/bitnami-docker-testlink/apache_data:/bitnami/apache'
+      - '/root/bitnami-docker-testlink/testlink_data:/bitnami/testlink'
+      - '/root/bitnami-docker-testlink/php_data:/bitnami/php'
     depends_on:
       - mariadb
-volumes:
-  mariadb_data:
-    driver: local
-  apache_data:
-    driver: local
-  testlink_data:
-    driver: local
-  php_data:
-    driver: local
+    environment:
+      TESTLINK_USERNAME: admin
+      TESTLINK_PASSWORD: admin
+      TESTLINK_EMAIL: admin@woqi.me
+      TESTLINK_LANGUAGE: zh_CN
